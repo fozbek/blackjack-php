@@ -1,4 +1,4 @@
-#Blackjack with PHP
+# Blackjack with PHP
 
 ## Requirements
     - PHP 7.4
