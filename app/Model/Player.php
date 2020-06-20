@@ -23,7 +23,7 @@ class Player
     public function hit()
     {
         $this->getHand()->addCard($this->deck->pickCard());
-        if ($this->hand->getTotal() > 21) {
+        if ($this->hand->getTotal() > Hand::MAX_POINT) {
             $this->isBusted = true;
         }
     }

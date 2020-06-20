@@ -6,6 +6,7 @@ use App\Helpers\CliHelper;
 use App\Helpers\Referee;
 use App\Model\Dealer;
 use App\Model\Deck;
+use App\Model\Hand;
 use App\Model\Player;
 
 class GameRunner
@@ -51,7 +52,7 @@ class GameRunner
         $this->referee = new Referee($this->player, $this->dealer);
     }
 
-    public function startGame(): void
+    public function start(): void
     {
         CliHelper::startCountdown($this->delay);
 
@@ -100,7 +101,7 @@ class GameRunner
             return $this->referee->checkForWinner();
         }
 
-        if ($player->getHand()->getTotal() < 21) {
+        if ($player->getHand()->getTotal() < Hand::MAX_POINT) {
             $isHit = (strtoupper(CliHelper::readLine('Hit(h) or Stay(s)')) == 'H');
 
             if ($isHit) {

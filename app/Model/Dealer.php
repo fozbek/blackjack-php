@@ -6,7 +6,7 @@ class Dealer extends Player
 {
     public function hit()
     {
-        while ($this->getHand()->getTotal() < 16) {
+        while ($this->getHand()->getTotal() < 17) {
             parent::hit();
         }
     }

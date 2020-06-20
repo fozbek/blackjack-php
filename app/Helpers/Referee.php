@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Model\Hand;
 use App\Model\Player;
 
 class Referee
@@ -26,12 +27,17 @@ class Referee
      */
     public function checkForFinished()
     {
-        if ($this->player->getHand()->getTotal() == 21) {
-            if ($this->dealer->getHand()->getTotal() == 21) {
-                return null;
-            } else {
-                return $this->player;
-            }
+        if ($this->player->getHand()->getTotal() == Hand::MAX_POINT
+            && $this->dealer->getHand()->getTotal() == Hand::MAX_POINT) {
+            return null;
+        }
+
+        if ($this->player->getHand()->getTotal() == Hand::MAX_POINT) {
+            return $this->player;
+        }
+
+        if ($this->dealer->getHand()->getTotal() == Hand::MAX_POINT) {
+            return $this->dealer;
         }
 
         return false;
@@ -43,13 +49,18 @@ class Referee
      */
     public function checkForBusted()
     {
+        if ($this->player->isBusted() && $this->dealer->isBusted()) {
+            $this->player->showAllCards();
+            return null;
+        }
+
         if ($this->player->isBusted()) {
             $this->player->showAllCards();
-            if ($this->dealer->isBusted()) {
-                return null;
-            } else {
-                return $this->dealer;
-            }
+            return $this->dealer;
+        }
+
+        if ($this->dealer->isBusted()) {
+            return $this->player;
         }
 
         return false;
@@ -61,7 +72,10 @@ class Referee
             return null;
         }
 
-        return ($this->dealer->getHand()->getTotal() > $this->player->getHand()->getTotal())
-            ? $this->dealer : $this->player;
+        if ($this->dealer->getHand()->getTotal() > $this->player->getHand()->getTotal()) {
+            return $this->dealer;
+        }
+
+        return $this->player;
     }
 }

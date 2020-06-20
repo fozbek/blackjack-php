@@ -4,6 +4,7 @@ namespace App\Model;
 
 class Hand
 {
+    const MAX_POINT = 21;
     private $cards = [];
     private $hasAce = false;
 
@@ -22,7 +23,7 @@ class Hand
             $handTotal += $card->getValue();
         }
 
-        if ($this->hasAce && ($handTotal + 10) <= 21) {
+        if ($this->hasAce && ($handTotal + 10) <= self::MAX_POINT) {
             $handTotal += 10;
         }
 
